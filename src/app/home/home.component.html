@@ -197,7 +197,7 @@
                 style="
                 background: linear-gradient(to right,#ff4d6d,#ff758f);
                 box-shadow:0 0 20px rgba(255,77,109,0.4);
-                ">
+                " (click)="logout()">
 
           <i class="bi bi-box-arrow-right me-2"></i>
 
@@ -294,6 +294,9 @@
              name="task_data">
 
     </div>
+    <small> class="text-danger mt-2">
+      {{error_message}}
+      </small>
 
     <!-- Category -->
 

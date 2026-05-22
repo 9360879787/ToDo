@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from '../services/home_service';
+import { Router } from '@angular/router';
 
+import *  as dayjs from 'dayjs';
 
 @Component({
   selector: 'app-home',
@@ -20,13 +22,17 @@ export class HomeComponent implements OnInit {
   profile_pic:any;
   email:any;
   user_id:any;
+  error_message:any;
   
-  constructor(private homeservice:HomeService) { }
+  constructor(private homeservice:HomeService,private router:Router) { }
  
   ngOnInit(): void {
+    this.fetchingUserData();
     this.getCategory();
-    // this.getdefaultTasks();
-    this.fetchingUserData()
+    this.getdefaultTasks();
+    const currentdate = new Date(); 
+    console.log(currentdate);
+    
     // const testdata = localStorage.getItem('data')
     // console.log("test data",testdata);
   }
@@ -38,11 +44,16 @@ export class HomeComponent implements OnInit {
     this.profile_pic = parsedata.data[0].profile_pic;
     this.email = parsedata.data[0].email_id;
     this.user_id = parsedata.data[0].Id;
+    console.log(this.user_id,this.name,this.profile_pic,this.email)
     
     
     
     
    
+  }
+  logout(){
+    localStorage.removeItem('data');
+    this.router.navigate(['/login']);
   }
 
   getCategory(){
@@ -55,6 +66,7 @@ export class HomeComponent implements OnInit {
         this.category = res;
         this.selected_category = this.category[0];
         console.log(res)
+        
       },
       error:(err)=>{
         console.log(err)
@@ -81,21 +93,22 @@ export class HomeComponent implements OnInit {
       }
     })
   }
-//   getdefaultTasks(){
-//       const data={
-//       'user_id':this.selected_category.user_id,
-//       'category_id':this.selected_category.category_id
-//     }
-//     this.homeservice.getuserTasks(data).subscribe({
-//       next:(res:any)=>{
-//         this.tasklist = res;
-//         console.log(res)
-//       },
-//       error:(err)=>{
-//         console.log(err)
-//       }
-//     })
-// }
+  getdefaultTasks(){
+      const data={
+      'user_id':this.user_id,
+      'category_id':this.selected_category.category_id
+    }
+    console.log(data)
+    this.homeservice.getuserTasks(data).subscribe({
+      next:(res:any)=>{
+        this.tasklist = res;
+        console.log(res)
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+}
   
 
 getTasks(cat:any){
@@ -116,6 +129,8 @@ getTasks(cat:any){
 
 
 addTask(){
+  
+
   
   const data = {
     'user_id':this.selected_category.user_id,
