@@ -42,7 +42,7 @@ export class LoginComponent implements AfterViewInit {
     console.log(response);
 
     this.http.post(
-      'http://127.0.0.1:5000/login',
+      'https://todobackend.onrender.com/login',
       {
         token: response.credential
       }
@@ -63,7 +63,7 @@ export class LoginComponent implements AfterViewInit {
 
   refresh(){
     this.http.post(
-      'http://127.0.0.1:5000/refresh',{},{
+      'https://todobackend.onrender.com/refresh',{},{
         headers:{
           Authorization: `Bearer ${localStorage.getItem('refresh_token')}`
         }

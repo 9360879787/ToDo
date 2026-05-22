@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 })
 
 export class HomeService {
-    API_BASE_URL = 'http://localhost:5000'
+    API_BASE_URL = 'https://todobackend.onrender.com'
 
     constructor(private http: HttpClient) {}   
     
